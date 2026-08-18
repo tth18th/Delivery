@@ -1,0 +1,1935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Amazon Driver Guide + Flashline Training</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
+    </script>
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            background: #f4f6fa;
+            color: #1a1a2e;
+            line-height: 1.6;
+        }
+        a {
+            text-decoration: none;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: linear-gradient(135deg, #0b2b4a 0%, #1a3a5a 100%);
+            color: #fff;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .logo i {
+            color: #ffb347;
+            font-size: 2rem;
+        }
+        .logo span {
+            color: #ffb347;
+        }
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem 0.75rem;
+            list-style: none;
+        }
+        .nav-links li a {
+            color: #e0e8f0;
+            padding: 0.5rem 0.75rem;
+            border-radius: 30px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            white-space: nowrap;
+        }
+        .nav-links li a i {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        .nav-links li a:hover,
+        .nav-links li a.active {
+            background: rgba(255, 179, 71, 0.2);
+            color: #ffb347;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            background: linear-gradient(135deg, #1a3a5a 0%, #0f2a44 100%);
+            color: #fff;
+            padding: 3rem 2rem 4rem;
+            text-align: center;
+            border-bottom: 4px solid #ffb347;
+        }
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 0.5rem;
+        }
+        .hero h1 i {
+            color: #ffb347;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 720px;
+            margin: 0 auto 1.5rem;
+            opacity: 0.9;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: rgba(255, 179, 71, 0.15);
+            border: 1px solid rgba(255, 179, 71, 0.3);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .hero-badge i {
+            color: #ffb347;
+        }
+
+        /* ===== SECTION COMMON ===== */
+        .section {
+            padding: 3rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0b2b4a;
+            margin-bottom: 1.5rem;
+            border-left: 6px solid #ffb347;
+            padding-left: 1rem;
+        }
+        .section-title i {
+            color: #ffb347;
+            font-size: 1.8rem;
+        }
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+        .card {
+            background: #fff;
+            border-radius: 18px;
+            padding: 1.5rem 1.75rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.10);
+        }
+        .card h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.2rem;
+            color: #0b2b4a;
+            margin-bottom: 0.75rem;
+        }
+        .card h3 i {
+            color: #ffb347;
+            font-size: 1.3rem;
+            width: 2rem;
+            text-align: center;
+        }
+        .card ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 0.5rem;
+        }
+        .card ul li {
+            padding: 0.3rem 0 0.3rem 1.8rem;
+            position: relative;
+        }
+        .card ul li::before {
+            content: "▸";
+            color: #ffb347;
+            font-weight: 700;
+            position: absolute;
+            left: 0;
+        }
+        .tip-box {
+            background: #fef9f0;
+            border-left: 5px solid #ffb347;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+        }
+        .tip-box strong {
+            color: #0b2b4a;
+        }
+        .tip-box i {
+            color: #ffb347;
+            margin-right: 0.4rem;
+        }
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        @media (max-width: 820px) {
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+        }
+        .highlight-box {
+            background: #eaf3fa;
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            margin-top: 1.5rem;
+        }
+        .highlight-box h4 {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: #0b2b4a;
+            margin-bottom: 0.5rem;
+        }
+        .highlight-box h4 i {
+            color: #ffb347;
+        }
+        .note {
+            background: #ffe6e6;
+            border-left: 5px solid #ff4d4d;
+            padding: 10px 15px;
+            margin: 20px 0;
+        }
+        .note ul {
+            margin-top: 6px;
+            padding-left: 20px;
+        }
+        .flow-chart-vertical {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .flow-step {
+            text-align: center;
+        }
+        .flow-step img {
+            width: 100px;
+            height: auto;
+            border-radius: 8px;
+        }
+        .arrow {
+            font-size: 28px;
+            color: #333;
+            line-height: 1;
+        }
+
+        /* ===== TABS ===== */
+        .tabs-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem 2rem;
+        }
+        .tab-panel {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .tab-panel.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== METRIC CARDS (Flashline style) ===== */
+        .metric-card {
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+        .metric-card:hover {
+            border-color: #ffb347;
+            transform: translateY(-6px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+        }
+        .metric-card img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            border-radius: 12px;
+            margin-bottom: 0.5rem;
+            background: #f0f4fc;
+            padding: 8px;
+        }
+        .metric-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.25rem;
+        }
+        .metric-card p {
+            color: #5e6f8d;
+            font-size: 0.9rem;
+        }
+        .metric-card a {
+            color: inherit;
+            display: block;
+        }
+
+        /* ===== METRIC DETAIL SECTIONS ===== */
+        .metric-detail {
+            background: #fff;
+            border-radius: 24px;
+            padding: 2rem 2.5rem;
+            margin-top: 2.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e8edf5;
+            scroll-margin-top: 80px;
+        }
+        .metric-detail h2 {
+            font-size: 1.8rem;
+            color: #0b2b4a;
+            margin-bottom: 0.5rem;
+        }
+        .metric-detail h2 i {
+            color: #ffb347;
+            margin-right: 0.5rem;
+        }
+        .metric-detail h3 {
+            font-size: 1.2rem;
+            color: #1a3a5a;
+            margin: 1.2rem 0 0.5rem;
+        }
+        .metric-detail ul {
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .metric-detail ul li {
+            margin-bottom: 0.3rem;
+        }
+        .metric-detail .note {
+            margin: 1rem 0;
+        }
+        .metric-detail img {
+            max-width: 100%;
+            border-radius: 12px;
+            margin: 0.5rem 0;
+            border: 1px solid #e8edf5;
+        }
+        .metric-detail .img-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            align-items: flex-start;
+            margin: 1rem 0;
+        }
+        .metric-detail .img-row img {
+            max-width: 220px;
+            height: auto;
+        }
+
+        /* ===== TRAINING SHEET ===== */
+        .training-sheet-wrapper {
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 20px 50px rgba(0, 20, 50, 0.12);
+            padding: 30px 35px 40px;
+            margin-top: 1.5rem;
+            border: 1px solid #e6edf8;
+        }
+        .training-sheet-wrapper .sub {
+            font-size: 15px;
+            color: #5e6f8d;
+        }
+        .training-sheet-wrapper .badge {
+            background: #eef4ff;
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a4c7a;
+            border: 1px solid #d6e2f2;
+            white-space: nowrap;
+        }
+        .training-sheet-wrapper .btn-pdf {
+            background: #0b2a4a;
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            font-size: 15px;
+            padding: 10px 28px;
+            border-radius: 40px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+            box-shadow: 0 4px 12px rgba(11, 42, 74, 0.25);
+            border: 1px solid #1a3a5a;
+            font-family: inherit;
+        }
+        .training-sheet-wrapper .btn-pdf:hover {
+            background: #143a5e;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(11, 42, 74, 0.30);
+        }
+        .training-sheet-wrapper .btn-pdf svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+        .training-sheet-wrapper .driver-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px 40px;
+            background: #f8faff;
+            border-radius: 18px;
+            padding: 20px 28px;
+            margin-bottom: 28px;
+            border: 1px solid #e6edf8;
+        }
+        .training-sheet-wrapper .driver-field {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .training-sheet-wrapper .driver-field label {
+            font-weight: 600;
+            font-size: 14px;
+            color: #1e3a5f;
+        }
+        .training-sheet-wrapper .driver-field input {
+            padding: 10px 14px;
+            border: 1.5px solid #d6e2f2;
+            border-radius: 12px;
+            font-size: 15px;
+            background: #fff;
+            transition: 0.2s;
+            font-family: inherit;
+            color: #0b1e3a;
+        }
+        .training-sheet-wrapper .driver-field input:focus {
+            border-color: #1a4c7a;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(26, 76, 122, 0.12);
+        }
+        .training-sheet-wrapper .section {
+            padding: 0 0 1.2rem 0;
+            max-width: 100%;
+        }
+        .training-sheet-wrapper .section h3 {
+            font-size: 17px;
+            font-weight: 700;
+            color: #0b1e3a;
+            border-bottom: 2px solid #e8edf5;
+            padding-bottom: 6px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .training-sheet-wrapper .section h3 .count {
+            background: #e8edf5;
+            color: #2a4a6a;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 0 12px;
+            border-radius: 30px;
+            line-height: 22px;
+        }
+        .training-sheet-wrapper .check-grid {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3px;
+        }
+        .training-sheet-wrapper .check-grid li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 5px 10px 5px 6px;
+            border-radius: 10px;
+            transition: background 0.15s;
+            border: 1px solid transparent;
+        }
+        .training-sheet-wrapper .check-grid li:hover {
+            background: #f7faff;
+            border-color: #e6edf8;
+        }
+        .training-sheet-wrapper .check-grid li input[type="checkbox"] {
+            flex-shrink: 0;
+            width: 19px;
+            height: 19px;
+            margin-top: 2px;
+            accent-color: #1a4c7a;
+            cursor: pointer;
+        }
+        .training-sheet-wrapper .check-grid li label {
+            font-size: 14px;
+            line-height: 1.5;
+            cursor: pointer;
+            color: #1e2f44;
+            flex: 1;
+        }
+        .training-sheet-wrapper .check-grid li .highlight {
+            color: #0b2a4a;
+            font-weight: 600;
+        }
+        .training-sheet-wrapper .additional-area textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 14px 16px;
+            border: 1.5px solid #d6e2f2;
+            border-radius: 14px;
+            font-size: 15px;
+            font-family: inherit;
+            resize: vertical;
+            transition: 0.2s;
+            background: #fafcff;
+            color: #0b1e3a;
+        }
+        .training-sheet-wrapper .additional-area textarea:focus {
+            border-color: #1a4c7a;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(26, 76, 122, 0.08);
+        }
+        .training-sheet-wrapper .signature-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px 40px;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 2px solid #e8edf5;
+        }
+        .training-sheet-wrapper .signature-box {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .training-sheet-wrapper .signature-box label {
+            font-weight: 600;
+            font-size: 15px;
+            color: #1e3a5f;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .training-sheet-wrapper .signature-box label small {
+            font-weight: 400;
+            font-size: 13px;
+            color: #7a8aa5;
+        }
+        .training-sheet-wrapper .signature-pad {
+            border: 2px solid #d6e2f2;
+            border-radius: 16px;
+            background: #fbfdff;
+            width: 100%;
+            height: 100px;
+            cursor: crosshair;
+            touch-action: none;
+            transition: 0.2s;
+            display: block;
+        }
+        .training-sheet-wrapper .signature-pad:hover {
+            border-color: #9bb3ce;
+        }
+        .training-sheet-wrapper .signature-pad.active {
+            border-color: #1a4c7a;
+            box-shadow: 0 0 0 4px rgba(26, 76, 122, 0.10);
+        }
+        .training-sheet-wrapper .sig-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 4px;
+        }
+        .training-sheet-wrapper .sig-actions button {
+            background: #f0f4fc;
+            border: 1px solid #d6e2f2;
+            padding: 5px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #1e3a5f;
+            cursor: pointer;
+            transition: 0.15s;
+            font-family: inherit;
+        }
+        .training-sheet-wrapper .sig-actions button:hover {
+            background: #e4ebf7;
+            border-color: #b0c5df;
+        }
+        .training-sheet-wrapper .sig-actions button.clear-btn {
+            color: #b13a4a;
+        }
+        .training-sheet-wrapper .sig-actions button.clear-btn:hover {
+            background: #fde8ea;
+            border-color: #e6b3b9;
+        }
+        .training-sheet-wrapper .date-field input {
+            padding: 8px 14px;
+            border: 1.5px solid #d6e2f2;
+            border-radius: 12px;
+            font-size: 14px;
+            background: #fff;
+            font-family: inherit;
+            color: #0b1e3a;
+            width: 100%;
+            max-width: 220px;
+        }
+        .training-sheet-wrapper .date-field input:focus {
+            border-color: #1a4c7a;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(26, 76, 122, 0.10);
+        }
+        .training-sheet-wrapper .footer-note {
+            margin-top: 28px;
+            font-size: 13px;
+            color: #7a8aa5;
+            text-align: center;
+            border-top: 1px solid #e8edf5;
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .training-sheet-wrapper .footer-note span {
+            background: #f7faff;
+            padding: 4px 14px;
+            border-radius: 30px;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #0b2b4a;
+            color: #b0c8dd;
+            padding: 2rem 2rem 1.5rem;
+            text-align: center;
+            border-top: 4px solid #ffb347;
+            margin-top: 2rem;
+        }
+        .footer p {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        .footer i {
+            color: #ffb347;
+        }
+
+        /* ===== LOADING & TOAST ===== */
+        .pdf-loading {
+            position: fixed;
+            inset: 0;
+            background: rgba(11, 30, 58, 0.55);
+            backdrop-filter: blur(6px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            flex-direction: column;
+            gap: 16px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 18px;
+        }
+        .pdf-loading.show {
+            display: flex;
+        }
+        .pdf-loading .spinner {
+            width: 44px;
+            height: 44px;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #0b2a4a;
+            color: #fff;
+            padding: 14px 32px;
+            border-radius: 60px;
+            font-weight: 500;
+            font-size: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            pointer-events: none;
+            z-index: 999;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .header {
+                padding: 0.75rem 1.25rem;
+            }
+            .nav-toggle {
+                display: block;
+            }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                padding: 1rem 0 0.5rem;
+                gap: 0.25rem;
+            }
+            .nav-links.open {
+                display: flex;
+            }
+            .nav-links li a {
+                padding: 0.6rem 0.75rem;
+                font-size: 1rem;
+                white-space: normal;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .section {
+                padding: 2rem 1.25rem;
+            }
+            .section-title {
+                font-size: 1.6rem;
+            }
+            .training-sheet-wrapper {
+                padding: 20px 16px;
+            }
+            .training-sheet-wrapper .driver-row {
+                grid-template-columns: 1fr;
+                gap: 16px;
+                padding: 16px 18px;
+            }
+            .training-sheet-wrapper .signature-row {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            .training-sheet-wrapper .check-grid li {
+                padding: 4px 6px;
+            }
+            .training-sheet-wrapper .check-grid li label {
+                font-size: 13px;
+            }
+            .training-sheet-wrapper .btn-pdf {
+                width: 100%;
+                justify-content: center;
+            }
+            .metric-detail {
+                padding: 1.5rem;
+            }
+            .metric-detail .img-row img {
+                max-width: 100%;
+            }
+        }
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+            .card {
+                padding: 1.25rem;
+            }
+            .metric-card img {
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+        /* print */
+        @media print {
+            .header,
+            .hero,
+            .footer,
+            .nav-toggle,
+            .btn-pdf,
+            .sig-actions {
+                display: none !important;
+            }
+            .tab-panel {
+                display: block !important;
+            }
+            .tabs-container {
+                padding: 0;
+            }
+            .training-sheet-wrapper {
+                box-shadow: none;
+                border: 1px solid #ccc;
+            }
+            .metric-detail {
+                box-shadow: none;
+                border: 1px solid #ccc;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header class="header" id="top">
+        <div class="logo">
+            <i class="fas fa-truck"></i>
+            <span>Driver</span>Guide
+        </div>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i>
+        </button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#tab-onboarding" class="active"><i class="fas fa-user-plus"></i> Onboarding</a></li>
+            <li><a href="#tab-morning"><i class="fas fa-sun"></i> Morning</a></li>
+            <li><a href="#tab-loading"><i class="fas fa-boxes"></i> Loading</a></li>
+            <li><a href="#tab-road"><i class="fas fa-car-crash"></i> Road</a></li>
+            <li><a href="#tab-end"><i class="fas fa-flag-checkered"></i> End</a></li>
+            <li><a href="#tab-vancheck"><i class="fas fa-clipboard-check"></i> Van Check</a></li>
+            <li><a href="#tab-training-guide"><i class="fas fa-book-open"></i> Training Guides</a></li>
+            <li><a href="#tab-training-sheet"><i class="fas fa-clipboard-list"></i> Training Sheet</a></li>
+        </ul>
+    </header>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+        <h1><i class="fas fa-truck"></i> Deliver Like a Pro</h1>
+        <p>Your complete step-by-step guide to mastering Amazon deliveries — whether you're just starting out or looking to level up your game.</p>
+        <div class="hero-badge">
+            <i class="fas fa-star"></i> Trusted by 1,000+ drivers
+        </div>
+    </section>
+
+    <!-- ===== TABS CONTAINER ===== -->
+    <div class="tabs-container" id="tabsContainer">
+
+        <!-- ===== TAB: ONBOARDING ===== -->
+        <div class="tab-panel active" id="tab-onboarding" data-tab="onboarding">
+            <h2 class="section-title"><i class="fas fa-user-plus"></i> Onboarding</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3><i class="fas fa-id-card"></i> First Steps</h3>
+                    <ul>
+                        <li>Complete your background check &amp; drug test.</li>
+                        <li>Attend the orientation session (in-person or virtual).</li>
+                        <li>Set up your Amazon Flex / DSP app credentials.</li>
+                        <li>Watch safety &amp; delivery training videos.</li>
+                        <li>Get your uniform, badge, and device.</li>
+                    </ul>
+                    <div class="tip-box">
+                        <i class="fas fa-lightbulb"></i> <strong>Pro tip:</strong> Take notes during orientation — small details save time later.
+                    </div>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-tasks"></i> Must-Know Policies</h3>
+                    <ul>
+                        <li>Delivery time windows &amp; priority packages.</li>
+                        <li>Customer notes &amp; access codes.</li>
+                        <li>Returns &amp; undeliverable procedures.</li>
+                        <li>Safety protocols (seatbelt, handbrake, etc).</li>
+                        <li>App navigation &amp; scanning basics.</li>
+                    </ul>
+                    <div class="tip-box">
+                        <i class="fas fa-check-circle"></i> <strong>Remember:</strong> Always log out of the app when not in use.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== TAB: MORNING ===== -->
+        <div class="tab-panel" id="tab-morning" data-tab="morning">
+            <h2 class="section-title"><i class="fas fa-sun"></i> Morning Routine</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3><i class="fas fa-clock"></i> Pre-Departure</h3>
+                    <ul>
+                        <li>Arrive at the station 15–20 min early.</li>
+                        <li>Hydrate &amp; eat a light breakfast.</li>
+                        <li>Check your schedule &amp; route map.</li>
+                        <li>Inspect your device &amp; portable charger.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-mobile-alt"></i> App Check</h3>
+                    <ul>
+                        <li>Sign in to the delivery app.</li>
+                        <li>Verify your route &amp; stop count.</li>
+                        <li>Download offline maps (if available).</li>
+                        <li>Check for any route updates.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-heartbeat"></i> Mindset &amp; Safety</h3>
+                    <ul>
+                        <li>Stretch your neck, shoulders, and back.</li>
+                        <li>Check the day's weather forecast.</li>
+                        <li>Set a positive intention for the shift.</li>
+                        <li>Ensure your phone is fully charged.</li>
+                    </ul>
+                    <div class="tip-box">
+                        <i class="fas fa-star"></i> <strong>Pro:</strong> A 5-min stretch reduces fatigue by 30%.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== TAB: LOADING ===== -->
+        <div class="tab-panel" id="tab-loading" data-tab="loading">
+            <h2 class="section-title"><i class="fas fa-boxes"></i> Loading &amp; Delivery</h2>
+            <div class="two-col">
+                <div class="card">
+                    <h3><i class="fas fa-sort-amount-up"></i> Smart Loading</h3>
+                    <ul>
+                        <li>Sort packages by stop order (use the driver aid number).</li>
+                        <li>Place first stops near the side/back doors.</li>
+                        <li>Heavy items on bottom, light on top.</li>
+                        <li>Use shelves &amp; totes to separate zones.</li>
+                        <li>Keep a clear path to the cargo area.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-search"></i> Scan &amp; Verify</h3>
+                    <ul>
+                        <li>Scan each package during loading.</li>
+                        <li>Check for damaged or missing labels.</li>
+                        <li>Note any oversized or special-handling boxes.</li>
+                        <li>Double-check the total package count.</li>
+                    </ul>
+                    <div class="tip-box">
+                        <i class="fas fa-exclamation-triangle"></i> <strong>Warning:</strong> Unscanned packages cause delays — scan every single one.
+                    </div>
+                </div>
+            </div>
+            <div class="highlight-box">
+                <h4><i class="fas fa-chart-line"></i> Loading Efficiency Checklist</h4>
+                <ul class="step-list" style="list-style:none;padding:0;margin-top:0.5rem;">
+                    <li style="padding:0.4rem 0 0.4rem 2rem;position:relative;border-bottom:1px solid #f0f2f5;">
+                        <span style="position:absolute;left:0;font-weight:700;color:#ffb347;">1.</span> Group by zone (A, B, C, D) or stop number.
+                    </li>
+                    <li style="padding:0.4rem 0 0.4rem 2rem;position:relative;border-bottom:1px solid #f0f2f5;">
+                        <span style="position:absolute;left:0;font-weight:700;color:#ffb347;">2.</span> Place envelopes &amp; small boxes in the front seat (safe zone).
+                    </li>
+                    <li style="padding:0.4rem 0 0.4rem 2rem;position:relative;border-bottom:1px solid #f0f2f5;">
+                        <span style="position:absolute;left:0;font-weight:700;color:#ffb347;">3.</span> Use bungee cords or nets to secure tall stacks.
+                    </li>
+                    <li style="padding:0.4rem 0 0.4rem 2rem;position:relative;">
+                        <span style="position:absolute;left:0;font-weight:700;color:#ffb347;">4.</span> Keep the handbrake &amp; gear shift area clear.
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ===== TAB: ROAD ===== -->
+        <div class="tab-panel" id="tab-road" data-tab="road">
+            <h2 class="section-title"><i class="fas fa-car-crash"></i> Road &amp; Vehicle Issues</h2>
+            <div class="two-col">
+                <div class="card">
+                    <h3><i class="fas fa-wrench"></i> Vehicle Problems</h3>
+                    <ul>
+                        <li>Flat tire? Call roadside assistance immediately.</li>
+                        <li>Engine warning light — pull over safely and report.</li>
+                        <li>Low fuel — plan your refueling stops.</li>
+                        <li>Brake issues — do not drive; call for help.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-map-signs"></i> Navigation &amp; Traffic</h3>
+                    <ul>
+                        <li>Use the app's reroute feature for delays.</li>
+                        <li>Check traffic updates before each leg.</li>
+                        <li>If a road is closed, find an alternate route.</li>
+                        <li>Stay calm in heavy traffic — safety first.</li>
+                    </ul>
+                    <div class="tip-box">
+                        <i class="fas fa-phone-alt"></i> <strong>Emergency:</strong> Save dispatch &amp; support numbers in your phone.
+                    </div>
+                </div>
+            </div>
+            <div class="highlight-box">
+                <h4><i class="fas fa-shield-alt"></i> What to Do in an Accident</h4>
+                <ul style="list-style:none;padding:0;margin-top:0.5rem;">
+                    <li style="padding:0.4rem 0 0.4rem 2rem;position:relative;border-bottom:1px solid #f0f2f5;">
+                        <span style="position:absolute;left:0;font-weight:700;color:#ffb347;">1.</span> Check for injuries — call 911 if needed.
+                    </li>
+                    <li style="padding:0.4rem 0 0.4rem 2rem;position:relative;border-bottom:1px solid #f0f2f5;">
+                        <span style="position:absolute;left:0;font-weight:700;color:#ffb347;">2.</span> Move the van to a safe spot if possible.
+                    </li>
+                    <li style="padding:0.4rem 0 0.4rem 2rem;position:relative;border-bottom:1px solid #f0f2f5;">
+                        <span style="position:absolute;left:0;font-weight:700;color:#ffb347;">3.</span> Report the incident to dispatch immediately.
+                    </li>
+                    <li style="padding:0.4rem 0 0.4rem 2rem;position:relative;border-bottom:1px solid #f0f2f5;">
+                        <span style="position:absolute;left:0;font-weight:700;color:#ffb347;">4.</span> Take photos of the scene and damage.
+                    </li>
+                    <li style="padding:0.4rem 0 0.4rem 2rem;position:relative;">
+                        <span style="position:absolute;left:0;font-weight:700;color:#ffb347;">5.</span> Complete the incident report in the app.
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ===== TAB: END ===== -->
+        <div class="tab-panel" id="tab-end" data-tab="end">
+            <h2 class="section-title"><i class="fas fa-flag-checkered"></i> End of Route</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3><i class="fas fa-undo-alt"></i> Returns &amp; Undelivered</h3>
+                    <ul>
+                        <li>Scan all undelivered packages as "return."</li>
+                        <li>Sort returns by reason (access, no response, etc).</li>
+                        <li>Place returns in designated totes/bins.</li>
+                        <li>Log each return in the app.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-clipboard-list"></i> Final App Steps</h3>
+                    <ul>
+                        <li>Complete all required app prompts.</li>
+                        <li>Submit your delivery completion report.</li>
+                        <li>Check for any pending customer feedback.</li>
+                        <li>Sign out of the delivery app.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-mug-hot"></i> Wind-Down</h3>
+                    <ul>
+                        <li>Debrief with your dispatcher (if applicable).</li>
+                        <li>Note any issues or route improvements.</li>
+                        <li>Hydrate and have a snack.</li>
+                        <li>Prepare for the next shift.</li>
+                    </ul>
+                    <div class="tip-box">
+                        <i class="fas fa-smile"></i> <strong>Reflect:</strong> What went well? What could be better?
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== TAB: VAN CHECK ===== -->
+        <div class="tab-panel" id="tab-vancheck" data-tab="vancheck">
+            <h2 class="section-title"><i class="fas fa-clipboard-check"></i> End-of-Day Van Check</h2>
+            <div class="two-col">
+                <div class="card">
+                    <h3><i class="fas fa-search"></i> Inspection Checklist</h3>
+                    <ul>
+                        <li>Remove all personal items and trash.</li>
+                        <li>Check for any packages left behind.</li>
+                        <li>Inspect for damage (scuffs, dents, glass).</li>
+                        <li>Test lights, horn, and indicators.</li>
+                        <li>Check tire pressure and fluid levels.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-gas-pump"></i> Refuel &amp; Clean</h3>
+                    <ul>
+                        <li>Refuel if below ¼ tank (DSP policy).</li>
+                        <li>Wipe down high-touch surfaces.</li>
+                        <li>Vacuum or sweep the cargo area.</li>
+                        <li>Report any maintenance issues.</li>
+                    </ul>
+                    <div class="tip-box">
+                        <i class="fas fa-check-double"></i> <strong>Final step:</strong> Take a photo of the van odometer and fuel level.
+                    </div>
+                </div>
+            </div>
+            <div class="highlight-box">
+                <h4><i class="fas fa-tools"></i> Daily Maintenance Log</h4>
+                <ul style="list-style:none;padding:0;margin-top:0.5rem;">
+                    <li style="padding:0.4rem 0 0.4rem 2rem;position:relative;border-bottom:1px solid #f0f2f5;">
+                        <span style="position:absolute;left:0;font-weight:700;color:#ffb347;">1.</span> Record mileage &amp; fuel used.
+                    </li>
+                    <li style="padding:0.4rem 0 0.4rem 2rem;position:relative;border-bottom:1px solid #f0f2f5;">
+                        <span style="position:absolute;left:0;font-weight:700;color:#ffb347;">2.</span> Note any mechanical concerns.
+                    </li>
+                    <li style="padding:0.4rem 0 0.4rem 2rem;position:relative;border-bottom:1px solid #f0f2f5;">
+                        <span style="position:absolute;left:0;font-weight:700;color:#ffb347;">3.</span> Log cleaning &amp; sanitization.
+                    </li>
+                    <li style="padding:0.4rem 0 0.4rem 2rem;position:relative;">
+                        <span style="position:absolute;left:0;font-weight:700;color:#ffb347;">4.</span> Submit the van check report.
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ===== TAB: TRAINING GUIDES (Flashline) ===== -->
+        <div class="tab-panel" id="tab-training-guide" data-tab="training-guide">
+            <h2 class="section-title"><i class="fas fa-book-open"></i> Driver Training Guides</h2>
+            <p style="margin-bottom:1.5rem;color:#4a5a72;">A collection of guides for the Amazon driver metrics. Click any card to jump directly to its detailed section below.</p>
+
+            <!-- Metric Cards Grid -->
+            <div class="card-grid" style="margin-bottom:2rem;">
+                <div class="card metric-card">
+                    <a href="#metric-dcr">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%23eef4ff' rx='12'/%3E%3Ctext x='40' y='48' font-family='Arial' font-size='28' font-weight='700' fill='%231a4c7a' text-anchor='middle'%3EDCR%3C/text%3E%3C/svg%3E" alt="DCR">
+                        <h3>DCR</h3>
+                        <p>Delivery Completion Rate</p>
+                    </a>
+                </div>
+                <div class="card metric-card">
+                    <a href="#metric-dnr">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%23eef4ff' rx='12'/%3E%3Ctext x='40' y='48' font-family='Arial' font-size='28' font-weight='700' fill='%231a4c7a' text-anchor='middle'%3EDNR%3C/text%3E%3C/svg%3E" alt="DNR">
+                        <h3>DNR</h3>
+                        <p>Did Not Receive (Concessions)</p>
+                    </a>
+                </div>
+                <div class="card metric-card">
+                    <a href="#metric-dsc">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%23eef4ff' rx='12'/%3E%3Ctext x='40' y='48' font-family='Arial' font-size='28' font-weight='700' fill='%231a4c7a' text-anchor='middle'%3EDSC%3C/text%3E%3C/svg%3E" alt="DSC">
+                        <h3>DSC</h3>
+                        <p>Delivery Success Conditions</p>
+                    </a>
+                </div>
+                <div class="card metric-card">
+                    <a href="#metric-cc">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%23eef4ff' rx='12'/%3E%3Ctext x='40' y='48' font-family='Arial' font-size='28' font-weight='700' fill='%231a4c7a' text-anchor='middle'%3ECC%3C/text%3E%3C/svg%3E" alt="CC">
+                        <h3>CC</h3>
+                        <p>Contact Compliance</p>
+                    </a>
+                </div>
+                <div class="card metric-card">
+                    <a href="#metric-pod">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%23eef4ff' rx='12'/%3E%3Ctext x='40' y='48' font-family='Arial' font-size='28' font-weight='700' fill='%231a4c7a' text-anchor='middle'%3EPOD%3C/text%3E%3C/svg%3E" alt="POD">
+                        <h3>POD</h3>
+                        <p>Photo on Delivery</p>
+                    </a>
+                </div>
+                <div class="card metric-card">
+                    <a href="#metric-ce">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%23eef4ff' rx='12'/%3E%3Ctext x='40' y='48' font-family='Arial' font-size='28' font-weight='700' fill='%231a4c7a' text-anchor='middle'%3ECE%3C/text%3E%3C/svg%3E" alt="CE">
+                        <h3>CE</h3>
+                        <p>Customer Escalations</p>
+                    </a>
+                </div>
+                <div class="card metric-card">
+                    <a href="#metric-cdf">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%23eef4ff' rx='12'/%3E%3Ctext x='40' y='48' font-family='Arial' font-size='28' font-weight='700' fill='%231a4c7a' text-anchor='middle'%3ECDF%3C/text%3E%3C/svg%3E" alt="CDF">
+                        <h3>CDF</h3>
+                        <p>Customer Delivery Feedback</p>
+                    </a>
+                </div>
+                <div class="card metric-card">
+                    <a href="#metric-noa">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%23eef4ff' rx='12'/%3E%3Ctext x='40' y='48' font-family='Arial' font-size='28' font-weight='700' fill='%231a4c7a' text-anchor='middle'%3ENOA%3C/text%3E%3C/svg%3E" alt="NOA">
+                        <h3>NOA</h3>
+                        <p>Notify of Arrival</p>
+                    </a>
+                </div>
+                <div class="card metric-card">
+                    <a href="#metric-lor">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%23eef4ff' rx='12'/%3E%3Ctext x='40' y='48' font-family='Arial' font-size='28' font-weight='700' fill='%231a4c7a' text-anchor='middle'%3ELoR%3C/text%3E%3C/svg%3E" alt="LoR">
+                        <h3>LoR</h3>
+                        <p>Lost on Road</p>
+                    </a>
+                </div>
+                <div class="card metric-card">
+                    <a href="#metric-mentor">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%23eef4ff' rx='12'/%3E%3Ctext x='40' y='46' font-family='Arial' font-size='20' font-weight='700' fill='%231a4c7a' text-anchor='middle'%3EE-Mentor%3C/text%3E%3C/svg%3E" alt="E-Mentor">
+                        <h3>E-Mentor</h3>
+                        <p>Safe Driving App</p>
+                    </a>
+                </div>
+            </div>
+
+            <div class="tip-box" style="margin-bottom:2rem;">
+                <i class="fas fa-info-circle"></i>
+                <strong>All Metrics:</strong> Each card links to detailed guidance below. Explore best practices, procedures, and tips for every metric!
+            </div>
+
+            <!-- ===== METRIC DETAIL SECTIONS ===== -->
+
+            <!-- DCR -->
+            <div class="metric-detail" id="metric-dcr">
+                <h2><i class="fas fa-percent"></i> Delivery Completion Rate (DCR)</h2>
+                <p><strong>DCR</strong> represents the percentage of packages successfully delivered out of the total assigned to you.</p>
+                <h3>How is DCR Calculated?</h3>
+                <p>If you take out 1000 packages in a week and successfully deliver 970, your DCR will be 97%.</p>
+                <h3>Target DCR</h3>
+                <p>To maintain strong performance, aim to deliver at least <strong>99%</strong> of your assigned packages each week.</p>
+                <h3>Balancing Performance Metrics</h3>
+                <p>DCR and DNR DPMO together account for <strong>50%</strong> of your overall performance score (25% each). To succeed in both areas:</p>
+                <ul>
+                    <li>Attempt direct contact with the customer when delivery isn't straightforward</li>
+                    <li>Leave a “We missed you” card when no one is available</li>
+                    <li>Always follow the customer's designated safe-place preferences</li>
+                </ul>
+                <h3>What Impacts DCR?</h3>
+                <p>DCR is only impacted when a delivery cannot be completed and is marked under certain statuses, such as:</p>
+                <ul>
+                    <li>Customer not available (no safe place approved)</li>
+                    <li>Business closed</li>
+                    <li>Address inaccessible or incorrect</li>
+                </ul>
+                <h3>Reattempting Deliveries</h3>
+                <p>When you are unable to complete a delivery earlier in your route, revisit the address at the end of your shift to check if the customer is now available. This reattempt often takes less time than returning to the depot and increases your DCR.</p>
+                <a href="#tab-training-guide" style="display:inline-block;margin-top:0.75rem;color:#ffb347;font-weight:600;">↑ Back to Guides</a>
+            </div>
+
+            <!-- DNR -->
+            <div class="metric-detail" id="metric-dnr">
+                <h2><i class="fas fa-box-open"></i> Did Not Receive (DNR DPMO)</h2>
+                <p><strong>DNR</strong>, also known as <strong>Concessions</strong>, is the metric representing shipments customers claim were never received, despite being marked as delivered.</p>
+                <h3>Calculation</h3>
+                <p><strong>Concession Amount ÷ Number of Packages You Delivered × 1,000,000</strong></p>
+                <h3>Root Causes of Concessions</h3>
+                <ul>
+                    <li><strong>Doorstepping packages:</strong> Leaving packages on the doorstep or in an unsafe location without consent.</li>
+                    <li><strong>Delivering to neighbors without consent:</strong> This could result in theft or confusion.</li>
+                    <li><strong>Customer abuse:</strong> Some customers falsely claim non-receipt.</li>
+                </ul>
+                <div class="note">
+                    <strong>Most Common Cause:</strong> Doorstepping without permission. Always call or text the customer and agree on a safe delivery solution.
+                </div>
+                <h3>Best Practices</h3>
+                <ul>
+                    <li>If you leave the package in a customer's selected safe location: leave a “We Missed You” card and contact the customer to confirm.</li>
+                    <li>If you can't contact the customer and no safe place is provided: mark it as “Customer unavailable,” make a second contact attempt, and keep the parcel for reattempt or return.</li>
+                </ul>
+                <a href="#tab-training-guide" style="display:inline-block;margin-top:0.75rem;color:#ffb347;font-weight:600;">↑ Back to Guides</a>
+            </div>
+
+            <!-- DSC -->
+            <div class="metric-detail" id="metric-dsc">
+                <h2><i class="fas fa-check-circle"></i> Delivery Success Conditions (DSC)</h2>
+                <p><strong>DSC</strong> measures how accurately deliveries are completed based on <strong>Delivery Workflow Compliance</strong> and <strong>Preference Honour Rate</strong>.</p>
+                <p>DSC replaces DNR DPMO and ensures deliveries use the correct process, scan types, locations, and proof of delivery.</p>
+                <h3>Key DSC Requirements</h3>
+                <h4>Attended Deliveries</h4>
+                <p>If selecting <strong>Delivered to Household Member</strong>, the parcel must be physically handed to a person at the address.</p>
+                <ul>
+                    <li>Only select this option when a customer or household member accepts the parcel directly.</li>
+                    <li>If left in a safe location (e.g., behind bin, porch), do not select Household Member.</li>
+                </ul>
+                <h4>Group Stops</h4>
+                <ul>
+                    <li>Deliver group stops <strong>one by one</strong>.</li>
+                    <li>Only link stops together if they are for the <strong>same exact location/address</strong>.</li>
+                </ul>
+                <h4>Swipe to Finish Location</h4>
+                <ul>
+                    <li>Swipe to finish near the actual delivery location.</li>
+                    <li>Any swipe completion over <strong>25 metres</strong> from the geopin may be flagged.</li>
+                </ul>
+                <h4>Proof of Delivery (POD)</h4>
+                <ul>
+                    <li>Photos must be well-lit, clear, and not blurry.</li>
+                    <li>The parcel must be visible in the photo.</li>
+                </ul>
+                <h4>Customer Safe Place Preferences</h4>
+                <ul>
+                    <li>Use the customer-selected safe place option (e.g., Back Door, Shed, Porch).</li>
+                    <li>Never select a safe place option that displays a <strong>yellow warning triangle</strong>.</li>
+                </ul>
+                <div class="note">
+                    <strong>Key Reminders:</strong>
+                    <ul>
+                        <li><strong>False scans</strong> are one of the biggest contributors to DSC failures.</li>
+                        <li>Always ensure scan type, POD photo, and delivery location match the actual delivery action taken.</li>
+                    </ul>
+                </div>
+                <a href="#tab-training-guide" style="display:inline-block;margin-top:0.75rem;color:#ffb347;font-weight:600;">↑ Back to Guides</a>
+            </div>
+
+            <!-- CC -->
+            <div class="metric-detail" id="metric-cc">
+                <h2><i class="fas fa-phone"></i> Contact Compliance (CC)</h2>
+                <p><strong>CC</strong> ensures delivery associates make appropriate attempts to contact customers when a package cannot be delivered.</p>
+                <h3>Achieving Compliance</h3>
+                <p>To maintain an excellent CC score, associates must attempt contact in at least <strong>98%</strong> of undelivered scenarios.</p>
+                <ul>
+                    <li>Scan the package at the delivery location.</li>
+                    <li>Select the question mark (?) icon in the top-right corner.</li>
+                    <li>Choose “Unable to Deliver.”</li>
+                    <li>Select the most appropriate reason code.</li>
+                    <li>Initiate contact via text message or phone call.</li>
+                </ul>
+                <h3>Accepted Contact Methods</h3>
+                <ul>
+                    <li><strong>Text Message:</strong> Automatically fulfills the CC requirement upon sending.</li>
+                    <li><strong>Phone Call:</strong> Must be answered by the customer or proceed to voicemail.</li>
+                </ul>
+                <div class="note">
+                    <strong>Key Reminders:</strong>
+                    <ul>
+                        <li>Each customer must receive an individual contact attempt, even at shared addresses.</li>
+                        <li>Skipping steps or using shortcuts will result in a failed CC record.</li>
+                        <li>When making a call attempt, you <strong>MUST</strong> let the call ring through — if you hang up it will count as a fail.</li>
+                    </ul>
+                </div>
+                <a href="#tab-training-guide" style="display:inline-block;margin-top:0.75rem;color:#ffb347;font-weight:600;">↑ Back to Guides</a>
+            </div>
+
+            <!-- POD -->
+            <div class="metric-detail" id="metric-pod">
+                <h2><i class="fas fa-camera"></i> Photo on Delivery (POD)</h2>
+                <p><strong>POD</strong> ensures delivery associates are taking correct photos of packages at the delivery location.</p>
+                <h3>Common POD Failures</h3>
+                <ul>
+                    <li>Picture is Blurry</li>
+                    <li>Package is too close</li>
+                    <li>Human In Picture</li>
+                    <li>Picture is Dark</li>
+                    <li>Package in Hand</li>
+                    <li>No Package Detected</li>
+                </ul>
+                <h3>Example of a Correct POD Photo</h3>
+                <p style="color:#5e6f8d;font-size:0.95rem;">(No house numbers, package labels, reflections of humans or animals in the picture.)</p>
+                <div style="background:#e8edf5;border-radius:12px;padding:1rem;display:inline-block;margin:0.5rem 0;">
+                    <span style="font-weight:600;color:#1a4c7a;">✅ Correct POD</span>
+                    <div style="width:200px;height:140px;background:#d0dbe8;border-radius:8px;margin-top:6px;display:flex;align-items:center;justify-content:center;color:#5e6f8d;font-size:0.9rem;">[package photo]</div>
+                </div>
+                <h3>Examples of Incorrect POD Photos</h3>
+                <div style="background:#ffe6e6;border-radius:12px;padding:1rem;display:inline-block;margin:0.5rem 0;">
+                    <span style="font-weight:600;color:#b13a4a;">❌ Incorrect POD</span>
+                    <div style="width:200px;height:140px;background:#f0d8d8;border-radius:8px;margin-top:6px;display:flex;align-items:center;justify-content:center;color:#b13a4a;font-size:0.9rem;">[blurry / dark / hand]</div>
+                </div>
+                <p>By following the correct process you should hit 100% on the POD metric every week.</p>
+                <a href="#tab-training-guide" style="display:inline-block;margin-top:0.75rem;color:#ffb347;font-weight:600;">↑ Back to Guides</a>
+            </div>
+
+            <!-- CE -->
+            <div class="metric-detail" id="metric-ce">
+                <h2><i class="fas fa-exclamation-triangle"></i> Customer Escalations (CE)</h2>
+                <p><strong>CE</strong> represents instances where a customer contacts Amazon to report an issue related to a delivery experience.</p>
+                <h3>Escalation Timing</h3>
+                <p>Customer Escalation data is subject to a four-week delay. This provides DSPs the opportunity to investigate and, if appropriate, appeal the escalation.</p>
+                <h3>Preventing Escalations</h3>
+                <ul>
+                    <li>Follow all delivery procedures accurately and consistently.</li>
+                    <li>Respect customer property and preferences.</li>
+                    <li>Maintain a professional and calm demeanor at all times.</li>
+                </ul>
+                <div class="note">
+                    <strong>Important Safety Protocols</strong>
+                    <ul>
+                        <li>If a customer engages in aggressive or inappropriate behavior, report it to your DSP manager immediately.</li>
+                        <li>In any situation involving physical threats or violence, contact emergency services first, then your DSP manager.</li>
+                    </ul>
+                </div>
+                <h3>Protection Through Proper Procedure</h3>
+                <p>As long as you are consistently following the correct delivery procedures, Amazon will not uphold a customer escalation by default. If a customer complains but your actions were compliant, the escalation will not impact your record.</p>
+                <a href="#tab-training-guide" style="display:inline-block;margin-top:0.75rem;color:#ffb347;font-weight:600;">↑ Back to Guides</a>
+            </div>
+
+            <!-- CDF -->
+            <div class="metric-detail" id="metric-cdf">
+                <h2><i class="fas fa-star"></i> Customer Delivery Feedback (CDF)</h2>
+                <p><strong>CDF</strong> is the percentage of customers who leave you a positive or negative review after a delivery is made.</p>
+                <p>Once a delivery is made, customers receive an email notification with options to give a thumbs up or thumbs down. Alternatively, customers can leave a review through the Amazon app.</p>
+                <h3>Preventing a Poor CDF Score</h3>
+                <ul>
+                    <li>Be kind and friendly</li>
+                    <li>Contact the customer if they are not home</li>
+                    <li>Adhere to their specified safe location</li>
+                    <li>Leave a “We missed you” card to inform the customer about the delivery status</li>
+                    <li>Avoid actions that may upset the customer, such as doorstepping or walking across their lawn</li>
+                </ul>
+                <p>If you find yourself chatting with a customer, ask them to leave you positive feedback!</p>
+                <a href="#tab-training-guide" style="display:inline-block;margin-top:0.75rem;color:#ffb347;font-weight:600;">↑ Back to Guides</a>
+            </div>
+
+            <!-- NOA -->
+            <div class="metric-detail" id="metric-noa">
+                <h2><i class="fas fa-bell"></i> Notify of Arrival (NOA)</h2>
+                <p><strong>NOA</strong> is the best all-round process that can improve your scorecard by sending a simple text message before each delivery.</p>
+                <h3>How to Send an NOA</h3>
+                <ol style="padding-left:1.5rem;margin-bottom:1rem;">
+                    <li>Press the '?' Icon in the top right corner of your device</li>
+                    <li>Press 'Text Customer'</li>
+                    <li>Press 'Notify of Arrival'</li>
+                </ol>
+                <h3>Benefits of NOA</h3>
+                <ul>
+                    <li><strong>NOA counts toward the CC metric</strong> — the more NOA you send, the more it covers any mistakes on CC.</li>
+                    <li>If you send 100 NOA and fail 1 CC, your score will be 99% — putting you back in the Fantastic bracket!</li>
+                    <li>NOA reduces DNR Concessions — proven data shows NOA helps achieve Fantastic in DNR DPMO.</li>
+                    <li>Alerts customers you're on the way — sometimes they'll be waiting at the door, saving you time!</li>
+                </ul>
+                <a href="#tab-training-guide" style="display:inline-block;margin-top:0.75rem;color:#ffb347;font-weight:600;">↑ Back to Guides</a>
+            </div>
+
+            <!-- LoR -->
+            <div class="metric-detail" id="metric-lor">
+                <h2><i class="fas fa-map-pin"></i> Lost on Road (LoR)</h2>
+                <p><strong>Lost on Road</strong> is the newest metric to come to the scorecard, designed to reduce the number of parcels lost whilst out in transit.</p>
+                <h3>Best Practices to Prevent Lost Packages</h3>
+                <ul>
+                    <li>When emptying bags and organizing them in your van, double-check that none have fallen out onto the ground or under the van.</li>
+                    <li><strong>ALL</strong> parcels that cannot be delivered must be returned to either the remote debrief driver or the depot on the same day.</li>
+                    <li>Parcels delivered but not completed on your device due to signal/map problems must be reported to your Manager.</li>
+                    <li>Any packages marked as 'missing' during your day will be chased by your manager — if you find them while still on route, deliver them before you finish (within reason).</li>
+                </ul>
+                <div class="note">
+                    <strong>Important</strong>
+                    <p>All high value packages are under CCTV within the warehouse. When a driver marks one of these shipments as missing, an investigation is carried out by the loss prevention team.</p>
+                </div>
+                <a href="#tab-training-guide" style="display:inline-block;margin-top:0.75rem;color:#ffb347;font-weight:600;">↑ Back to Guides</a>
+            </div>
+
+            <!-- E-Mentor -->
+            <div class="metric-detail" id="metric-mentor">
+                <h2><i class="fas fa-car"></i> E-Mentor — Safe Driving</h2>
+                <p><strong>E-Mentor</strong> is a third-party app that records and measures your driving throughout your route.</p>
+                <h3>How to Use E-Mentor</h3>
+                <ul>
+                    <li>Log in every single time you have a route at Amazon — failing to do so will impact adoption rate.</li>
+                    <li>For best results, use a second device to prevent deductions for 'phone distractions' (even answering on hands-free impacts your score).</li>
+                    <li>Hotspot your spare device off your main phone, log into E-Mentor, begin trip, wait about a minute, then disconnect from the hotspot.</li>
+                    <li>Wedge your phone somewhere secure where it won't bang around (e.g., in the slit in the sunvisor or between the seats).</li>
+                    <li>Log in before you leave home or at your first stop. Do at least 3 hours driving time before logging out and uploading your trip.</li>
+                </ul>
+                <p><strong>Score targets:</strong> 810 or above for Fantastic. If you get a score below 780, tell your manager — they have the chance to reset your account so the poor score doesn't impact you.</p>
+                <a href="#tab-training-guide" style="display:inline-block;margin-top:0.75rem;color:#ffb347;font-weight:600;">↑ Back to Guides</a>
+            </div>
+
+        </div>
+
+        <!-- ===== TAB: TRAINING SHEET ===== -->
+        <div class="tab-panel" id="tab-training-sheet" data-tab="training-sheet">
+            <h2 class="section-title"><i class="fas fa-clipboard-list"></i> Ride Along Training Sheet</h2>
+            <div class="training-sheet-wrapper" id="trainingSheet">
+
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:18px; margin-bottom:22px; padding-bottom:16px; border-bottom:3px solid #e8edf5;">
+                    <div>
+                        <h2 style="font-size:1.6rem;color:#0b1e3a;">🚚 Ride Along Training Sheet</h2>
+                        <span class="sub">Mentor Driving App · AFS · Amazon Delivery · Samsara</span>
+                    </div>
+                    <div style="display:flex; gap:14px; flex-wrap:wrap; align-items:center;">
+                        <span class="badge" id="progressBadge">0 / 47 completed</span>
+                        <button class="btn-pdf" id="downloadPdfBtn">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/><path d="M12 15v-4h-1.5v4H9l3 3 3-3h-1.5z"/></svg>
+                            Download PDF
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Driver Row -->
+                <div class="driver-row">
+                    <div class="driver-field">
+                        <label for="traineeName">👤 Trainee Driver</label>
+                        <input type="text" id="traineeName" placeholder="Full name" />
+                    </div>
+                    <div class="driver-field">
+                        <label for="mentorName">🧑‍🏫 Main Driver / Mentor</label>
+                        <input type="text" id="mentorName" placeholder="Full name" />
+                    </div>
+                </div>
+
+                <!-- Section 1 -->
+                <div class="section">
+                    <h3>📱 Mentor Driving App <span class="count">2 items</span></h3>
+                    <ul class="check-grid">
+                        <li><input type="checkbox" id="chk_app_setup" /><label for="chk_app_setup">App is set up and log in tested while on ride along</label></li>
+                        <li><input type="checkbox" id="chk_app_process" /><label for="chk_app_process">Process explained for starting/ending trips and how the app works / what it measures</label></li>
+                    </ul>
+                </div>
+
+                <!-- Section 2 -->
+                <div class="section">
+                    <h3>📋 AFS Processes <span class="count">9 items</span></h3>
+                    <ul class="check-grid">
+                        <li><input type="checkbox" id="chk_afs_login" /><label for="chk_afs_login">Ensure DA can log in to the AFS App</label></li>
+                        <li><input type="checkbox" id="chk_afs_dailyvan" /><label for="chk_afs_dailyvan">Daily van check in MyAFS App — explain needs to be done when leaving the house or before 10am</label></li>
+                        <li><input type="checkbox" id="chk_afs_availability" /><label for="chk_afs_availability">Confirmation for Availability in MyAFS App</label></li>
+                        <li><input type="checkbox" id="chk_afs_route" /><label for="chk_afs_route">Confirmation and viewing Route/Wave in MyAFS App</label></li>
+                        <li><input type="checkbox" id="chk_afs_report" /><label for="chk_afs_report">Shown how to Report and explained the accident &amp; incident process</label></li>
+                        <li><input type="checkbox" id="chk_afs_overview" /><label for="chk_afs_overview">General overview — safety scores, personal details etc. Go through all the tabs</label></li>
+                        <li><input type="checkbox" id="chk_afs_dayoff" /><label for="chk_afs_dayoff">Day off requests — explain how rota chat works</label></li>
+                        <li><input type="checkbox" id="chk_afs_clearquote" /><label for="chk_afs_clearquote">Explain about the Clear Quote check every 2 weeks</label></li>
+                        <li><input type="checkbox" id="chk_afs_fuel" /><label for="chk_afs_fuel">Explain how fuel card / business mileage works. Personal card is ordered but can use any card until it arrives</label></li>
+                    </ul>
+                </div>
+
+                <!-- Section 3 -->
+                <div class="section">
+                    <h3>📦 Amazon Delivery &amp; Process <span class="count">24 items</span></h3>
+                    <ul class="check-grid">
+                        <li><input type="checkbox" id="chk_amz_equip" /><label for="chk_amz_equip">Correct equipment — hi-vis, safety shoes, key chain, phone holder, charging cable, 12v adapter etc</label></li>
+                        <li><input type="checkbox" id="chk_amz_flex" /><label for="chk_amz_flex">Shown how to sign into Amazon Flex app and start work</label></li>
+                        <li><input type="checkbox" id="chk_amz_offline" /><label for="chk_amz_offline">Install offline maps on trainee's device</label></li>
+                        <li><input type="checkbox" id="chk_amz_dvic" /><label for="chk_amz_dvic">Shown the Amazon Daily Vehicle Check (DVIC)</label></li>
+                        <li><input type="checkbox" id="chk_amz_redtag" /><label for="chk_amz_redtag">Explain importance and consequences of a red tag — highlight lights, mirrors and tyres</label></li>
+                        <li><input type="checkbox" id="chk_amz_qr" /><label for="chk_amz_qr">Show where to get QR code and where VIN is on windscreen</label></li>
+                        <li><input type="checkbox" id="chk_amz_staging" /><label for="chk_amz_staging">Explain staging areas and what the info on the cages means</label></li>
+                        <li><input type="checkbox" id="chk_amz_load" /><label for="chk_amz_load">Gone through how to efficiently load van and collect cages at Depot</label></li>
+                        <li><input type="checkbox" id="chk_amz_hvp" /><label for="chk_amz_hvp">Explain about High Value parcels and show how to pick up after cages are swiped to finish</label></li>
+                        <li><input type="checkbox" id="chk_amz_collect" /><label for="chk_amz_collect">Explain customer collection process and what to do if any issues</label></li>
+                        <li><input type="checkbox" id="chk_amz_stickers" /><label for="chk_amz_stickers">Explain how driver ID stickers work and how best to use them</label></li>
+                        <li><input type="checkbox" id="chk_amz_nodesc" /><label for="chk_amz_nodesc">Advise not to use parcel description on app as is often incorrect — driver ID stickers are 100% accurate</label></li>
+                        <li><input type="checkbox" id="chk_amz_deliver" /><label for="chk_amz_deliver">Shown how to deliver to customer and mark on Device</label></li>
+                        <li><input type="checkbox" id="chk_amz_safeplace" /><label for="chk_amz_safeplace">Safe place deliveries — explain process and importance of following instructions</label></li>
+                        <li><input type="checkbox" id="chk_amz_safehome" /><label for="chk_amz_safehome">Safe place deliveries — explain how to use safe place if customer is home</label></li>
+                        <li><input type="checkbox" id="chk_amz_weather" /><label for="chk_amz_weather">Explain and demonstrate importance of using weather bags</label></li>
+                        <li><input type="checkbox" id="chk_amz_undel" /><label for="chk_amz_undel">Undeliverable — shown how to complete on app and explain about contact compliance</label></li>
+                        <li><input type="checkbox" id="chk_amz_return" /><label for="chk_amz_return">Return items — shown options in this section and when to use — damaged, missing, cancelled etc</label></li>
+                        <li><input type="checkbox" id="chk_amz_contact" /><label for="chk_amz_contact">Contact Compliance — shown how to avoid falls on a multi stop</label></li>
+                        <li><input type="checkbox" id="chk_amz_avd" /><label for="chk_amz_avd">Age Verification (AVD) — asking for age and then I.D if under 25 and inputting to Flex app. <span class="highlight">Highlight importance of sticking to this process</span></label></li>
+                        <li><input type="checkbox" id="chk_amz_otp" /><label for="chk_amz_otp">One Time Passcode (OTP) — explain process and what to do if no OTP available</label></li>
+                        <li><input type="checkbox" id="chk_amz_missing" /><label for="chk_amz_missing">Missing parcels, damaged, extra and rejects all explained if none pop up through training</label></li>
+                        <li><input type="checkbox" id="chk_amz_reattempt" /><label for="chk_amz_reattempt">Reattempts — how to find and process</label></li>
+                        <li><input type="checkbox" id="chk_amz_endwork" /><label for="chk_amz_endwork">Explain and demonstrate how to end work without having to return to the depot</label></li>
+                    </ul>
+                </div>
+
+                <!-- Section 4 -->
+                <div class="section">
+                    <h3>🛣️ On The Road <span class="count">6 items</span></h3>
+                    <ul class="check-grid">
+                        <li><input type="checkbox" id="chk_road_locations" /><label for="chk_road_locations">How to identify correct delivery locations (numbers on bins, house signs etc) — hints &amp; tips you use</label></li>
+                        <li><input type="checkbox" id="chk_road_apps" /><label for="chk_road_apps">Handy apps or Sites e.g. Del M8, OSG or address finder just in case the app fails us</label></li>
+                        <li><input type="checkbox" id="chk_road_adblue" /><label for="chk_road_adblue">Ad Blue — what it is, where to put it and when to fill up. If it runs too low, may incur a garage bill to reset sensor</label></li>
+                        <li><input type="checkbox" id="chk_road_checks" /><label for="chk_road_checks">Vehicle checks — how to check fluids, tyre wear, importance of tyre pressure</label></li>
+                        <li><input type="checkbox" id="chk_road_accessories" /><label for="chk_road_accessories">Essential accessories to have in van — clothing, food &amp; water, tools e.g. tow rope, torch, shovel etc</label></li>
+                        <li><input type="checkbox" id="chk_road_debrief" /><label for="chk_road_debrief">Explain and demonstrate debrief process at the end of the ride along routes</label></li>
+                    </ul>
+                </div>
+
+                <!-- Section 5 -->
+                <div class="section">
+                    <h3>🚗 Driving &amp; Samsara <span class="count">6 items</span></h3>
+                    <ul class="check-grid">
+                        <li><input type="checkbox" id="chk_sam_system" /><label for="chk_sam_system">Explain Samsara system in vehicle — also explain it counts on days off too</label></li>
+                        <li><input type="checkbox" id="chk_sam_techniques" /><label for="chk_sam_techniques">Samsara driving techniques — how to avoid picking up deductions — braking while turning, speeding, seat belt etc</label></li>
+                        <li><input type="checkbox" id="chk_sam_general" /><label for="chk_sam_general">General driving capabilities — monitor the trainee and how they drive throughout the day — feedback any concerns to OSM</label></li>
+                        <li><input type="checkbox" id="chk_sam_blindspot" /><label for="chk_sam_blindspot">Explain blindspot awareness and in general explain vehicle and spatial awareness — particularly reversing</label></li>
+                        <li><input type="checkbox" id="chk_sam_position" /><label for="chk_sam_position">Advise to position van ready to drive away once delivery is complete — complete any manoeuvres first</label></li>
+                        <li><input type="checkbox" id="chk_sam_incentive" /><label for="chk_sam_incentive">Explain driver safety incentive through using Samsara — £5 per day after 4 weeks if score over 90%</label></li>
+                    </ul>
+                </div>
+
+                <!-- Section 6 -->
+                <div class="section">
+                    <h3>❓ Additional Ride Along Questions <span class="count">notes</span></h3>
+                    <div class="additional-area">
+                        <textarea id="additionalQuestions" placeholder="Write in any additional questions covered and flag to Office if more info required …"></textarea>
+                    </div>
+                </div>
+
+                <!-- Signatures -->
+                <div class="signature-row">
+                    <div class="signature-box">
+                        <label>✍️ Trainee Driver Signature <small>(draw with mouse or finger)</small></label>
+                        <canvas class="signature-pad" id="sigTrainee" height="100"></canvas>
+                        <div class="sig-actions">
+                            <button class="clear-btn" data-sig="trainee">✕ Clear</button>
+                        </div>
+                        <div class="date-field">
+                            <input type="date" id="dateTrainee" />
+                        </div>
+                    </div>
+                    <div class="signature-box">
+                        <label>✍️ Main Driver / Mentor Signature <small>(draw with mouse or finger)</small></label>
+                        <canvas class="signature-pad" id="sigMentor" height="100"></canvas>
+                        <div class="sig-actions">
+                            <button class="clear-btn" data-sig="mentor">✕ Clear</button>
+                        </div>
+                        <div class="date-field">
+                            <input type="date" id="dateMentor" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-note">
+                    <span>✅ All items must be ticked to confirm training completed</span>
+                    <span>📅 Version 1.0 · Ride Along Training Sheet</span>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- end tabs-container -->
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <p><i class="fas fa-truck"></i> Amazon Driver Guide — built by drivers, for drivers.</p>
+        <p style="font-size:0.95rem;margin-top:0.25rem;"><i class="fas fa-check-circle" style="color:#ffb347;"></i> Step by step to delivery excellence</p>
+        <small>&copy; 2026 DriverGuide · All rights reserved · <i class="fas fa-heart" style="color:#ff6b6b;"></i> Stay safe out there</small>
+    </footer>
+
+    <!-- ===== LOADING & TOAST ===== -->
+    <div class="pdf-loading" id="pdfLoading">
+        <div class="spinner"></div>
+        <span>Generating PDF …</span>
+    </div>
+    <div class="toast" id="toast"></div>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+        (function() {
+            'use strict';
+
+            // ---- Nav toggle ----
+            const toggle = document.getElementById('navToggle');
+            const navLinks = document.getElementById('navLinks');
+            toggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => navLinks.classList.remove('open'));
+            });
+
+            // ---- Tab switching ----
+            const navLinksAll = document.querySelectorAll('.nav-links a');
+            const panels = document.querySelectorAll('.tab-panel');
+
+            function switchTab(tabId) {
+                // remove active from all panels
+                panels.forEach(p => p.classList.remove('active'));
+                // remove active from all nav links
+                navLinksAll.forEach(l => l.classList.remove('active'));
+
+                // find panel
+                const target = document.getElementById(tabId);
+                if (target) target.classList.add('active');
+
+                // find nav link with matching href
+                navLinksAll.forEach(link => {
+                    const href = link.getAttribute('href');
+                    if (href === '#' + tabId) {
+                        link.classList.add('active');
+                    }
+                });
+
+                // if the tab is training-guide, scroll to it after a tiny delay
+                if (tabId === 'tab-training-guide') {
+                    setTimeout(() => {
+                        const el = document.getElementById('tab-training-guide');
+                        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 100);
+                }
+                if (tabId === 'tab-training-sheet') {
+                    setTimeout(() => {
+                        const el = document.getElementById('tab-training-sheet');
+                        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 100);
+                }
+            }
+
+            // Nav click handler
+            navLinksAll.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const href = this.getAttribute('href');
+                    if (href && href.startsWith('#')) {
+                        const tabId = href.substring(1);
+                        switchTab(tabId);
+                        // update URL hash
+                        history.pushState(null, '', href);
+                    }
+                });
+            });
+
+            // Handle hash on load
+            if (window.location.hash) {
+                const hash = window.location.hash.substring(1);
+                const validTab = document.getElementById(hash);
+                if (validTab && validTab.classList.contains('tab-panel')) {
+                    switchTab(hash);
+                }
+            }
+
+            // ---- Progress badge ----
+            const allCheckboxes = document.querySelectorAll('.training-sheet-wrapper .check-grid input[type="checkbox"]');
+            const progressBadge = document.getElementById('progressBadge');
+
+            function updateProgress() {
+                const total = allCheckboxes.length;
+                const checked = document.querySelectorAll('.training-sheet-wrapper .check-grid input[type="checkbox"]:checked')
+                    .length;
+                progressBadge.textContent = `${checked} / ${total} completed`;
+            }
+            allCheckboxes.forEach(cb => cb.addEventListener('change', updateProgress));
+            updateProgress();
+
+            // ---- Toast ----
+            const toastEl = document.getElementById('toast');
+            let toastTimer = null;
+
+            function showToast(msg, duration) {
+                duration = duration || 2800;
+                toastEl.textContent = msg;
+                toastEl.classList.add('show');
+                clearTimeout(toastTimer);
+                toastTimer = setTimeout(() => toastEl.classList.remove('show'), duration);
+            }
+
+            // ---- Signature pads ----
+            function setupSignature(canvasId, clearBtnSelector) {
+                const canvas = document.getElementById(canvasId);
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+                let isDrawing = false;
+                let lastX = 0,
+                    lastY = 0;
+
+                function resizeCanvas() {
+                    const rect = canvas.getBoundingClientRect();
+                    const dpr = window.devicePixelRatio || 1;
+                    const w = rect.width || canvas.clientWidth || 300;
+                    const h = rect.height || canvas.clientHeight || 100;
+                    canvas.width = w * dpr;
+                    canvas.height = h * dpr;
+                    canvas.style.width = w + 'px';
+                    canvas.style.height = h + 'px';
+                    ctx.scale(dpr, dpr);
+                    ctx.lineWidth = 2.5;
+                    ctx.lineCap = 'round';
+                    ctx.lineJoin = 'round';
+                    ctx.strokeStyle = '#0b1e3a';
+                }
+
+                let savedData = null;
+
+                function saveDrawing() {
+                    savedData = canvas.toDataURL();
+                }
+
+                function getPos(e) {
+                    const rect = canvas.getBoundingClientRect();
+                    const x = (e.clientX || e.touches?.[0]?.clientX || 0) - rect.left;
+                    const y = (e.clientY || e.touches?.[0]?.clientY || 0) - rect.top;
+                    return { x, y };
+                }
+
+                function startDraw(e) {
+                    e.preventDefault();
+                    isDrawing = true;
+                    const pos = getPos(e);
+                    lastX = pos.x;
+                    lastY = pos.y;
+                    canvas.classList.add('active');
+                }
+
+                function draw(e) {
+                    e.preventDefault();
+                    if (!isDrawing) return;
+                    const pos = getPos(e);
+                    ctx.beginPath();
+                    ctx.moveTo(lastX, lastY);
+                    ctx.lineTo(pos.x, pos.y);
+                    ctx.stroke();
+                    lastX = pos.x;
+                    lastY = pos.y;
+                }
+
+                function endDraw(e) {
+                    e.preventDefault();
+                    if (isDrawing) {
+                        isDrawing = false;
+                        canvas.classList.remove('active');
+                        saveDrawing();
+                    }
+                }
+
+                canvas.addEventListener('mousedown', startDraw);
+                canvas.addEventListener('mousemove', draw);
+                canvas.addEventListener('mouseup', endDraw);
+                canvas.addEventListener('mouseleave', endDraw);
+                canvas.addEventListener('touchstart', startDraw, { passive: false });
+                canvas.addEventListener('touchmove', draw, { passive: false });
+                canvas.addEventListener('touchend', endDraw, { passive: false });
+                canvas.addEventListener('touchcancel', endDraw, { passive: false });
+
+                const clearBtn = document.querySelector(clearBtnSelector);
+                if (clearBtn) {
+                    clearBtn.addEventListener('click', function() {
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        savedData = null;
+                        canvas.classList.remove('active');
+                    });
+                }
+
+                const ro = new ResizeObserver(() => {
+                    const old = savedData;
+                    resizeCanvas();
+                    if (old) {
+                        const img = new Image();
+                        img.onload = function() {
+                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                            savedData = old;
+                        };
+                        img.src = old;
+                    }
+                });
+                ro.observe(canvas);
+                setTimeout(resizeCanvas, 50);
+
+                return {
+                    clear: function() {
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        savedData = null;
+                        canvas.classList.remove('active');
+                    },
+                    getDataURL: function() {
+                        return canvas.toDataURL('image/png');
+                    },
+                    isBlank: function() {
+                        const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                        const pixels = data.data;
+                        for (let i = 0; i < pixels.length; i += 4) {
+                            if (pixels[i + 3] > 0) return false;
+                        }
+                        return true;
+                    }
+                };
+            }
+
+            const traineeSig = setupSignature('sigTrainee', '.clear-btn[data-sig="trainee"]');
+            const mentorSig = setupSignature('sigMentor', '.clear-btn[data-sig="mentor"]');
+
+            // ---- PDF download ----
+            const downloadBtn = document.getElementById('downloadPdfBtn');
+            const loadingOverlay = document.getElementById('pdfLoading');
+
+            downloadBtn.addEventListener('click', function() {
+                const traineeName = document.getElementById('traineeName').value.trim();
+                const mentorName = document.getElementById('mentorName').value.trim();
+                if (!traineeName || !mentorName) {
+                    showToast('⚠️ Please enter both Trainee and Mentor names before downloading.', 3000);
+                    return;
+                }
+
+                const sigTBlank = traineeSig ? traineeSig.isBlank() : true;
+                const sigMBlank = mentorSig ? mentorSig.isBlank() : true;
+                if (sigTBlank || sigMBlank) {
+                    showToast('⚠️ Signatures are blank – please sign before downloading.', 3000);
+                }
+
+                loadingOverlay.classList.add('show');
+
+                setTimeout(() => {
+                    const element = document.getElementById('trainingSheet');
+                    html2canvas(element, {
+                        scale: 2,
+                        useCORS: true,
+                        allowTaint: false,
+                        backgroundColor: '#ffffff',
+                        logging: false,
+                        width: element.scrollWidth,
+                        height: element.scrollHeight,
+                        windowWidth: element.scrollWidth,
+                        windowHeight: element.scrollHeight,
+                    }).then(canvas => {
+                        const imgData = canvas.toDataURL('image/png');
+                        const { jsPDF } = window.jspdf;
+                        const pdf = new jsPDF('p', 'mm', 'a4');
+                        const pdfWidth = pdf.internal.pageSize.getWidth();
+                        const pdfHeight = (canvas.height / canvas.width) * pdfWidth;
+                        let heightLeft = pdfHeight;
+                        let position = 0;
+                        const pageHeight = pdf.internal.pageSize.getHeight();
+
+                        pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, pdfHeight);
+                        heightLeft -= pageHeight;
+                        while (heightLeft > 0) {
+                            position = heightLeft - pdfHeight;
+                            pdf.addPage();
+                            pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, pdfHeight);
+                            heightLeft -= pageHeight;
+                        }
+                        pdf.save('Ride_Along_Training_Sheet.pdf');
+                        loadingOverlay.classList.remove('show');
+                        showToast('✅ PDF downloaded successfully!', 2500);
+                    }).catch(err => {
+                        console.error(err);
+                        loadingOverlay.classList.remove('show');
+                        showToast('❌ Error generating PDF. Please try again.', 3000);
+                    });
+                }, 400);
+            });
+
+            // ---- Auto-set today's date ----
+            const today = new Date().toISOString().split('T')[0];
+            document.querySelectorAll('.training-sheet-wrapper .date-field input[type="date"]').forEach(inp => {
+                if (!inp.value) inp.value = today;
+            });
+
+            // ---- Smooth scroll for metric anchors within training-guide tab ----
+            document.querySelectorAll('.metric-card a, .metric-detail a[href^="#metric-"]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href && href.startsWith('#')) {
+                        const targetId = href.substring(1);
+                        const target = document.getElementById(targetId);
+                        if (target && target.classList.contains('metric-detail')) {
+                            e.preventDefault();
+                            // ensure we're on the training-guide tab
+                            switchTab('tab-training-guide');
+                            // scroll to the metric after tab switch
+                            setTimeout(() => {
+                                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }, 300);
+                        }
+                    }
+                });
+            });
+
+            // ---- Expose for debugging ----
+            window.__app = {
+                switchTab,
+                traineeSig,
+                mentorSig,
+                updateProgress
+            };
+
+        })();
+    </script>
+
+</body>
+</html>
